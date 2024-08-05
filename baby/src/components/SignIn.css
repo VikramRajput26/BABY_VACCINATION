@@ -1,0 +1,8 @@
+/* src/components/SignIn.css */
+.sign-in-container {
+  margin-top: 50px;
+}
+
+.sign-in-container .form-control {
+  margin-bottom: 15px;
+}

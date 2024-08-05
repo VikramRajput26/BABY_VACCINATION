@@ -1,0 +1,39 @@
+/* src/components/Home.css */
+.navbar-custom {
+  background-color: #215f9d !important; /* Custom background color */
+}
+
+.navbar-custom .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff !important; /* White color for the brand */
+}
+
+.navbar-custom .nav-link {
+  color: #ffffff !important; /* White color for nav links */
+}
+
+.navbar-custom .nav-link:hover {
+  color: #007bff !important; /* Bootstrap primary color on hover */
+}
+
+.navbar-custom .navbar-toggler {
+  border-color: #ffffff !important; /* White border color for the toggler */
+}
+
+.navbar-custom .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' linecap='round' linejoin='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+.navbar-custom .navbar-collapse {
+  justify-content: flex-end;
+}
+
+.navbar-custom .dropdown-item {
+  color: #343a40 !important;
+}
+
+.navbar-custom .dropdown-item:hover {
+  background-color: #007bff !important;
+  color: #cf5050 !important;
+}
