@@ -1,6 +1,9 @@
-/* src/components/Home.css */
+/* Navbar Customization */
 .navbar-custom {
   background-color: #215f9d !important; /* Custom background color */
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
 }
 
 .navbar-custom .navbar-brand {
@@ -36,4 +39,86 @@
 .navbar-custom .dropdown-item:hover {
   background-color: #007bff !important;
   color: #cf5050 !important;
+}
+
+/* Full Page Image */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.full-page-image-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+}
+
+.full-page-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the entire container */
+  object-position: center; /* Centers the image */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Form Overlay */
+.form-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container,
+.signup-container,
+.sign-in-container {
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Adjust width as needed */
+  z-index: 1001; /* Ensure form is above the image */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Image Fluidity */
+.img-fluid {
+  max-width: 100%;
+  height: auto;
 }
