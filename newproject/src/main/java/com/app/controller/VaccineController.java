@@ -3,6 +3,8 @@ package com.app.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import com.app.services.VaccineService;
 
 @RestController
 @RequestMapping("/vaccines")
+@CrossOrigin("*")
 public class VaccineController {
 
 	private final VaccineService vaccineService;
@@ -45,6 +48,7 @@ public class VaccineController {
 		return ResponseEntity.ok(vaccineService.updateVaccine(id, vaccineDTO));
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteVaccine(@PathVariable int id) {
 		vaccineService.deleteVaccine(id);

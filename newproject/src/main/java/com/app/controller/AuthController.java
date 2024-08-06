@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,8 @@ import com.app.security.JwtTokenHelper;
 import com.app.services.UserService;
 
 @RestController
-@RequestMapping("/api/v1/auth/")
+@RequestMapping("/api/v1/auth")
+@CrossOrigin("*")
 public class AuthController {
 
 	@Autowired
@@ -36,7 +38,7 @@ public class AuthController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping("/login")
+	@PostMapping("/sign-in")
 	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
 		this.authenticate(request.getEmail(), request.getPassword());
 		UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getEmail());
@@ -57,18 +59,14 @@ public class AuthController {
 		}
 	}
 
-	@PostMapping("/register")
+	@PostMapping("/sign-up")
 	public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
-		// You might want to add additional validations or checks here
 		UserDTO registeredUser = userService.createUser(userDTO);
 		return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
 	}
 
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout() {
-		// JWT is stateless, so we don't need to invalidate it on the server side.
-		// You can implement client-side logout by removing the token from local storage
-		// or cookie.
 		return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
 	}
 }

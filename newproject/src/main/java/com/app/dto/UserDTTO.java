@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-
+public class UserDTTO {
+	private int userId;
 	private String firstName;
 	private String lastName;
 	private String contactNumber;
 	private String email;
-	private String password; // Added password field
+	private String password;
 	private Set<RoleDTO> roles;
 
 }
