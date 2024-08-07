@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChildDTO {
-	private int childId;
-	private UserDTO parent;
-	private String firstName;
-	private String lastName;
-	private Date dateOfBirth;
-	private Gender gender;
-	private String bloodType;
+    private int childId;
+    private int parentId; // Added parentId field
+    private String firstName;
+    private String lastName;
+    private Date dateOfBirth;
+    private Gender gender;
+    private String bloodType;
 }

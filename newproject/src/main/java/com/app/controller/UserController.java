@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.dto.UserDTO;
 import com.app.services.UserService;
 
-
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin("*")
@@ -27,7 +26,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	 @PostMapping("/sign-up")
+	@PostMapping("/sign-up")
 	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
 		UserDTO createdUser = userService.createUser(userDTO);
 		return ResponseEntity.ok(createdUser);

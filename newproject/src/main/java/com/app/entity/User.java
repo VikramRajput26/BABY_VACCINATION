@@ -27,8 +27,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,70 +40,67 @@ import lombok.Setter;
 @Setter
 public class User implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int userId;
 
-    @NotBlank(message = "First Name is Mandatory!!!")
-    @Column(nullable = false)
-    private String firstName;
+	@NotBlank(message = "First Name is Mandatory!!!")
+	@Column(nullable = false)
+	private String firstName;
 
-    @NotBlank(message = "Last Name is Mandatory!!!")
-    @Column(nullable = false)
-    private String lastName;
+	@NotBlank(message = "Last Name is Mandatory!!!")
+	@Column(nullable = false)
+	private String lastName;
 
-    @NotBlank(message = "Contact Number is Mandatory!!!")
-    @Pattern(regexp = "^\\d{10}$", message = "Contact Number should be 10 digits")
-    @Column(nullable = false, unique = true)
-    private String contactNumber;
+	@NotBlank(message = "Contact Number is Mandatory!!!")
+	@Pattern(regexp = "^\\d{10}$", message = "Contact Number should be 10 digits")
+	@Column(nullable = false, unique = true)
+	private String contactNumber;
 
-    @NotBlank(message = "Password is Mandatory!!!")
-    @Column(nullable = false)
-    private String password;
+	@NotBlank(message = "Password is Mandatory!!!")
+	@Column(nullable = false)
+	private String password;
 
-    @NotBlank(message = "Email is Mandatory!!!")
-    @Email(message = "Email format is Invalid!!!")
-    @Column(nullable = false, unique = true)
-    private String email;
+	@NotBlank(message = "Email is Mandatory!!!")
+	@Email(message = "Email format is Invalid!!!")
+	@Column(nullable = false, unique = true)
+	private String email;
 
-    @NotNull(message = "Role is Mandatory!!!")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+	@NotNull(message = "Role is Mandatory!!!")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Child> children = new HashSet<>();
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Appointment> appointments = new HashSet<>();
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Appointment> appointments = new HashSet<>();
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+	}
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
+	@Override
+	public String getUsername() {
+		return email;
+	}
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

@@ -29,6 +29,10 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "userId")
     private User doctor;
+    
+    @ManyToOne
+    @JoinColumn(name = "vaccine_id", referencedColumnName = "vaccineId")
+    private Vaccine vaccine;
 
     private Date appointmentDate;
     private String reason;

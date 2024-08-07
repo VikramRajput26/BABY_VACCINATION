@@ -29,52 +29,52 @@ import com.app.security.JwtAuthenticationEntryPoint;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-    @Autowired
-    private JWTRequestFilter filter;
+	@Autowired
+	private JWTRequestFilter filter;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint authenticationEntryPoint;
+	@Autowired
+	private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(corsConfigurationSource()) // Apply CORS configuration
-                .and().csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler).and().authorizeRequests()
-                .antMatchers("/api/v1/auth/sign-in", "/api/v1/auth/sign-up").permitAll()
-                .antMatchers("/api/users/**").permitAll() // Permit all access to UserController endpoints
-                .antMatchers("/auth/**", "/swagger*/**", "/v*/api-docs/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest().authenticated().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.cors().configurationSource(corsConfigurationSource()) // Apply CORS configuration
+				.and().csrf().disable().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+				.accessDeniedHandler(accessDeniedHandler).and().authorizeRequests()
+				.antMatchers("/api/v1/auth/sign-in", "/api/v1/auth/sign-up").permitAll().antMatchers("/api/users/**")
+				.permitAll() // Permit all access to UserController endpoints
+				.antMatchers("/api/children/**").permitAll() // Permit all access to ChildController endpoints
+				.antMatchers("/auth/**", "/swagger*/**", "/v*/api-docs/**").permitAll().antMatchers(HttpMethod.OPTIONS)
+				.permitAll().anyRequest().authenticated().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+		return http.build();
+	}
 
-    @Bean
-    public AuthenticationManager authenticationMgr(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+	@Bean
+	public AuthenticationManager authenticationMgr(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173")); // Replace with the actual frontend URL
-        corsConfiguration.setAllowedMethods(List.of("*"));
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setMaxAge(3600L);
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173")); // Replace with the actual frontend URL
+		corsConfiguration.setAllowedMethods(List.of("*"));
+		corsConfiguration.setAllowedHeaders(List.of("*"));
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.setMaxAge(3600L);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfiguration);
+		return source;
+	}
 }

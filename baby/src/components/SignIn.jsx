@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import { signIn } from "../services/userService";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,6 +10,7 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // Get the navigate function
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,8 +19,7 @@ function SignIn() {
       setError(""); // Clear any previous errors
       toast.success("Login successful!"); // Show success message
       console.log(data); // You might want to redirect the user to a dashboard or home page
-      // Example: Redirect to dashboard
-      // window.location.href = "/dashboard";
+      navigate("/childregister"); // Redirect to ChildRegister page
     } catch (error) {
       setError(error.message); // Set error message
       toast.error("Login failed: " + error.message); // Show error message

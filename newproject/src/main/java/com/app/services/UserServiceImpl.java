@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
+
 	public UserDTO updateUser(int userId, UserDTO userDTO) {
 		Optional<User> optionalUser = userRepository.findById(userId);
 		if (optionalUser.isPresent()) {
@@ -70,7 +70,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(int userId) {
+		if (!userRepository.existsById(userId)) {
+			throw new RuntimeException("User not found");
+		}
 		userRepository.deleteById(userId);
 	}
 
@@ -89,6 +93,7 @@ public class UserServiceImpl implements UserService {
 
 	private UserDTO convertToDTO(User user) {
 		UserDTO userDTO = new UserDTO();
+		userDTO.setUserId(user.getUserId());
 		userDTO.setFirstName(user.getFirstName());
 		userDTO.setLastName(user.getLastName());
 		userDTO.setContactNumber(user.getContactNumber());
@@ -96,4 +101,5 @@ public class UserServiceImpl implements UserService {
 		userDTO.setRoles(user.getRoles().stream().map(role -> new RoleDTO(role.getName())).collect(Collectors.toSet()));
 		return userDTO;
 	}
+
 }

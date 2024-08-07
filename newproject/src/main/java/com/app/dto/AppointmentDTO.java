@@ -13,6 +13,7 @@ public class AppointmentDTO {
 	private int appointmentId;
 	private ChildDTO child;
 	private UserDTO doctor;
+	private VaccineDTO vaccine;
 	private Date appointmentDate;
 	private String reason;
 	private Status status;

@@ -9,6 +9,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import ChildRegister from "./pages/ChildRegister";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/user-list" element={<UserList />} />
         <Route path="/user-by-id" element={<UserById />} />
+        <Route path="/childregister" element={<ChildRegister />} />
         <Route path="/update-user/:id" element={<UpdateUser />} />
         <Route path="/view-user/:id" element={<ViewUser />} />
       </Routes>

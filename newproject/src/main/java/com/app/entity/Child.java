@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class Child {
 	private Date dateOfBirth;
 
 	@Enumerated(EnumType.STRING)
-	private Gender gender; // Use external Gender enum
+	private Gender gender;
 
 	private String bloodType;
 }
