@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { register } from "../services/authService";
+import { signUp } from "../services/userService"; // Ensure this is the correct import
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./SignUp.css";
 
 function SignUp() {
@@ -9,34 +11,33 @@ function SignUp() {
     email: "",
     password: "",
     contactNumber: "",
-    role: "",
+    roles: [], // This should be an array to match the backend
   });
-
-  const [alert, setAlert] = useState({ message: "", type: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleRoleChange = (e) => {
+    setFormData({ ...formData, roles: [e.target.value] }); // Adjusting for single role selection
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await register(formData);
-      setAlert({ message: "User registered successfully!", type: "success" });
+      await signUp(formData);
+      toast.success("User registered successfully!");
     } catch (error) {
-      setAlert({ message: "There was an error signing up!", type: "danger" });
+      toast.error(
+        error.response?.data?.message || "There was an error signing up!"
+      );
     }
   };
 
   return (
     <div className="signup-container">
       <h2>Sign Up</h2>
-      {alert.message && (
-        <div className={`alert alert-${alert.type}`} role="alert">
-          {alert.message}
-        </div>
-      )}
       <form onSubmit={handleSubmit} className="signup-form">
         <div className="form-group-row">
           <div className="form-group">
@@ -96,9 +97,9 @@ function SignUp() {
           <div className="form-group">
             <label>Role:</label>
             <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
+              name="roles"
+              value={formData.roles[0] || ""}
+              onChange={handleRoleChange}
               required
             >
               <option value="">Select a role</option>
@@ -109,6 +110,7 @@ function SignUp() {
         </div>
         <button type="submit">Sign Up</button>
       </form>
+      <ToastContainer />
     </div>
   );
 }

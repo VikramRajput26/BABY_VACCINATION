@@ -7,6 +7,9 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import "./Home.css";
 import SignIn from "./SignIn"; // Ensure this path is correct
 import SignUp from "./SignUp"; // Ensure this path is correct
+import UserList from "../pages/UserList"; // Updated path for UserList
+import UserById from "../pages/UserById"; // Updated path for UserById
+import UpdateUser from "../pages/UpdateUser"; // Updated path for UpdateUser
 import { logout } from "../services/authService"; // Ensure this path is correct
 
 function Home() {
@@ -44,18 +47,14 @@ function Home() {
               </Nav.Link>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="#action/3.1">
-                  Action
+                <NavDropdown.Item as={Link} to="/user-list">
+                  UserList
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="#action/3.2">
-                  Another action
+                <NavDropdown.Item as={Link} to="/user-by-id">
+                  UserById
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="#action/3.4">
-                  Separated link
+                <NavDropdown.Item as={Link} to="/update-user">
+                  UpdateUser
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -68,6 +67,12 @@ function Home() {
           <Routes>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/user-list" element={<UserList />} />{" "}
+            {/* Add UserList route */}
+            <Route path="/user-by-id" element={<UserById />} />{" "}
+            {/* Add UserById route */}
+            <Route path="/update-user" element={<UpdateUser />} />{" "}
+            {/* Add UpdateUser route */}
           </Routes>
         </div>
       </div>

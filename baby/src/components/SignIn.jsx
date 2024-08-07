@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
-import { login } from "../services/authService";
+import { signIn } from "../services/userService";
+import { toast, ToastContainer } from "react-toastify";
 import "./SignIn.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(email, password);
-      setSuccess(true);
-      setError("");
-      // Redirect or perform additional actions upon successful login
-      console.log(response); // You might want to redirect the user to a dashboard or home page
+      const data = await signIn(email, password); // Use the signIn function
+      setError(""); // Clear any previous errors
+      toast.success("Login successful!"); // Show success message
+      console.log(data); // You might want to redirect the user to a dashboard or home page
+      // Example: Redirect to dashboard
+      // window.location.href = "/dashboard";
     } catch (error) {
-      setError(error.message);
-      setSuccess(false);
+      setError(error.message); // Set error message
+      toast.error("Login failed: " + error.message); // Show error message
     }
   };
 
@@ -27,7 +29,6 @@ function SignIn() {
     <Container className="login-wrapper">
       <div className="login-form-container">
         <h2 className="login-title">Sign In</h2>
-        {success && <Alert variant="success">Login successful!</Alert>}
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Group controlId="formBasicEmail">
@@ -56,6 +57,7 @@ function SignIn() {
             Sign In
           </Button>
         </Form>
+        <ToastContainer /> {/* Add ToastContainer for Toastify */}
       </div>
     </Container>
   );
