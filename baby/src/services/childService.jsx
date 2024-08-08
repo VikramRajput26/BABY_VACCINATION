@@ -44,3 +44,12 @@ export const deleteChild = async (id) => {
     throw error;
   }
 };
+
+export const getChildrenByParentId = async (parentId) => {
+  try {
+    const response = await myAxios.get(`/api/children/parent/${parentId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

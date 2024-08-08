@@ -1,3 +1,4 @@
+// Home.jsx
 import React from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
@@ -5,19 +6,26 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "./Home.css";
-import SignIn from "./SignIn"; // Ensure this path is correct
-import SignUp from "./SignUp"; // Ensure this path is correct
-import UserList from "../pages/UserList"; // Updated path for UserList
-import UserById from "../pages/UserById"; // Updated path for UserById
-import UpdateUser from "../pages/UpdateUser"; // Updated path for UpdateUser
-import { logout } from "../services/authService"; // Ensure this path is correct
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import UserList from "../pages/UserList";
+import UserById from "../pages/UserById";
+import UpdateUser from "../pages/UpdateUser";
+import ChildList from "../pages/ChildList";
+import UpdateChild from "../pages/UpdateChild";
+import { logout } from "../services/authService";
+import Footer from "../homepage/Footer"; // Import the Footer component
+import Immune from "../homepage/Immune";
+import Cards from "../homepage/Cards";
+
+// Import the Footer component
 
 function Home() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Clear the token from local storage
-    navigate("/"); // Redirect to the home page
+    logout();
+    navigate("/");
   };
 
   return (
@@ -50,11 +58,12 @@ function Home() {
                 <NavDropdown.Item as={Link} to="/user-list">
                   UserList
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/user-by-id">
-                  UserById
+
+                <NavDropdown.Item as={Link} to="/child-list">
+                  ChildList
                 </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/update-user">
-                  UpdateUser
+                <NavDropdown.Item as={Link} to="/update-child/:id">
+                  UpdateChild
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
@@ -67,15 +76,16 @@ function Home() {
           <Routes>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/user-list" element={<UserList />} />{" "}
-            {/* Add UserList route */}
-            <Route path="/user-by-id" element={<UserById />} />{" "}
-            {/* Add UserById route */}
-            <Route path="/update-user" element={<UpdateUser />} />{" "}
-            {/* Add UpdateUser route */}
+            <Route path="/user-list" element={<UserList />} />
+            <Route path="/user-by-id" element={<UserById />} />
+            <Route path="/child-list" element={<ChildList />} />
+            <Route path="/update-child/:id" element={<UpdateChild />} />
           </Routes>
         </div>
       </div>
+      <Immune />
+      <Cards />
+      <Footer /> {/* Add the Footer component here */}
     </>
   );
 }

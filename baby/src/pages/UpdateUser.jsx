@@ -1,75 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { getUserById, updateUser } from "../services/userService";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { getUserById, updateUser } from "../services/userService";
-import "react-toastify/dist/ReactToastify.css";
 import "./UpdateUser.css";
 
 const UpdateUser = () => {
-  const { id } = useParams();
+  const { userId } = useParams(); // Extract userId from URL params
+  const navigate = useNavigate();
   const [user, setUser] = useState({
+    userId: "",
     firstName: "",
     lastName: "",
-    email: "",
     contactNumber: "",
+    email: "",
     password: "",
-    roles: [], // Initialize as an empty array
+    roles: [],
   });
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
+      if (!userId) {
+        setError("User ID is missing");
+        setLoading(false);
+        return;
+      }
       try {
-        const userData = await getUserById(id);
+        const userData = await getUserById(userId);
         setUser(userData);
         setLoading(false);
       } catch (error) {
-        toast.error("Failed to fetch user details.");
+        setError("Failed to load user data");
+        setLoading(false);
       }
     };
 
     fetchUser();
-  }, [id]);
+  }, [userId]);
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
+    const { name, value } = e.target;
     if (name === "roles") {
-      setUser((prevUser) => ({
-        ...prevUser,
-        roles: checked
-          ? [...prevUser.roles, value]
-          : prevUser.roles.filter((role) => role !== value),
-      }));
+      setUser({ ...user, roles: [value] }); // Assuming a single role selection
     } else {
       setUser({ ...user, [name]: value });
     }
+  };
+  const handleBackClick = () => {
+    navigate("/user-list"); // Navigate back to UserList page
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateUser(id, user);
-      toast.success("User updated successfully!");
-      navigate("/user-list");
+      await updateUser(userId, user);
+      navigate("/user-list"); // Navigate back to the user list after successful update
     } catch (error) {
-      toast.error("Failed to update user.");
+      setError("Failed to update user");
     }
   };
 
-  const handleBackClick = () => {
-    navigate("/user-list");
-  };
-
   if (loading) {
-    return <p>Loading...</p>;
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (
     <div className="update-user-container">
-      <h2>Update User</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formFirstName">
           <Form.Label>First Name</Form.Label>
@@ -81,7 +83,6 @@ const UpdateUser = () => {
             required
           />
         </Form.Group>
-
         <Form.Group controlId="formLastName">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
@@ -92,18 +93,6 @@ const UpdateUser = () => {
             required
           />
         </Form.Group>
-
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
         <Form.Group controlId="formContactNumber">
           <Form.Label>Contact Number</Form.Label>
           <Form.Control
@@ -114,7 +103,16 @@ const UpdateUser = () => {
             required
           />
         </Form.Group>
-
+        <Form.Group controlId="formEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
         <Form.Group controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -123,37 +121,29 @@ const UpdateUser = () => {
             value={user.password}
             onChange={handleChange}
           />
-          <Form.Text className="text-muted">
-            Leave blank if you do not want to change the password.
-          </Form.Text>
         </Form.Group>
-
         <Form.Group controlId="formRoles">
           <Form.Label>Roles</Form.Label>
-          <Form.Check
-            type="checkbox"
-            label="ROLE_USER"
+          <Form.Control
+            as="select"
             name="roles"
-            value="ROLE_USER"
-            checked={user.roles.includes("ROLE_USER")}
+            value={user.roles[0] || ""}
             onChange={handleChange}
-          />
-          <Form.Check
-            type="checkbox"
-            label="ROLE_ADMIN"
-            name="roles"
-            value="ROLE_ADMIN"
-            checked={user.roles.includes("ROLE_ADMIN")}
-            onChange={handleChange}
-          />
+            required
+          >
+            <option value="">Select Role</option>
+            <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+            <option value="ROLE_USER">ROLE_USER</option>
+          </Form.Control>
         </Form.Group>
-
         <Button variant="primary" type="submit">
-          Submit
+          Update
         </Button>
-        <Button variant="secondary" onClick={handleBackClick} className="ml-2">
-          Back to User List
-        </Button>
+        <div className="button-group">
+          <Button variant="success" onClick={handleBackClick}>
+            Back to User List
+          </Button>
+        </div>
       </Form>
     </div>
   );

@@ -57,9 +57,11 @@ const ViewUser = () => {
               <strong>Roles:</strong>{" "}
               {user.roles.map((role) => role.name).join(", ")}
             </p>
-            <Button variant="secondary" onClick={handleBackClick}>
-              Back to User List
-            </Button>
+            <div className="button-group">
+              <Button variant="success" onClick={handleBackClick}>
+                Back to User List
+              </Button>
+            </div>
           </div>
         ) : (
           <p>Loading user details...</p>

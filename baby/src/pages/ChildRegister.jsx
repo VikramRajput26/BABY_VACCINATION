@@ -8,7 +8,7 @@ const ChildRegister = () => {
     dateOfBirth: "",
     gender: "",
     bloodType: "",
-    parentId: "", // Assuming parentId is the ID of the parent user
+    parentId: "", 
   });
 
   const handleChange = (e) => {

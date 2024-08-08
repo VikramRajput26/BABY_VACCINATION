@@ -1,0 +1,54 @@
+/* Immune.css */
+
+/* Container */
+.container {
+  font-family: Arial, sans-serif;
+}
+
+/* Heading */
+h2 {
+  color: #004085; /* Dark blue for main heading */
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Subheadings */
+h4 {
+  color: #006400; /* Dark green for subheadings */
+  font-size: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Table */
+.table {
+  font-size: 1rem;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Table Headers */
+.table th {
+  background-color: #007bff; /* Blue background for table headers */
+  color: #ffffff; /* White text color for table headers */
+  padding: 12px;
+  text-align: left;
+}
+
+/* Table Cells */
+.table td {
+  background-color: #f8f9fa; /* Light gray background for table cells */
+  color: #333; /* Dark gray text color for table cells */
+  padding: 12px;
+  border-bottom: 1px solid #ddd; /* Light gray border for cells */
+}
+
+/* Striped Rows */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #e9ecef; /* Light gray background for odd rows */
+}
+
+/* Hover Effect */
+.table-hover tbody tr:hover {
+  background-color: #d6e9f9; /* Light blue background on hover */
+}
