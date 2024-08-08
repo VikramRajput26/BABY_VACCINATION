@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createChild } from "../services/childService";
 
 const ChildRegister = () => {
@@ -8,8 +9,9 @@ const ChildRegister = () => {
     dateOfBirth: "",
     gender: "",
     bloodType: "",
-    parentId: "", 
+    parentId: "",
   });
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +26,8 @@ const ChildRegister = () => {
     try {
       const response = await createChild(child);
       console.log("Child registered successfully:", response);
+      // Redirect to the Appointment component
+      navigate('/appointments');
     } catch (error) {
       console.error("Error registering child:", error);
     }
@@ -32,7 +36,7 @@ const ChildRegister = () => {
   return (
     <div>
       <h2>Register Child</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="POST">
         <div>
           <label>First Name:</label>
           <input

@@ -13,6 +13,7 @@ import UpdateChild from "./pages/UpdateChild";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ViewChild from "./pages/ViewChild";
 import AboutUs from "./homepage/AboutUs";
+import Appointment from "./pages/Appointment";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/child-list" element={<ChildList />} />
         <Route path="/update-child/:childId" element={<UpdateChild />} />
         <Route path="/view-child/:childId" element={<ViewChild />} />
+        <Route path="/appointments" element={<Appointment />} />
       </Routes>
     </Router>
   );
